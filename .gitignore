@@ -1,0 +1,12 @@
+# Data
+resources/data/lamanno/*
+!resources/data/lamanno/get_lamanno_data.R
+
+# Snakemake files
+workflow/.snakemake
+
+# Cache
+.cache
+
+# Singularity image
+workflow/envs/singularity.img

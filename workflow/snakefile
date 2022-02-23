@@ -1,0 +1,102 @@
+configfile: "config/config.yaml"
+singularity: "workflow/envs/singularity.img"
+
+rule all:
+	input:
+		expand("singleCellNet_{datasets}.done", datasets = config["datasets"]),
+		expand("seurat_{datasets}.done", datasets = config["datasets"]),
+		expand("symphony_{datasets}.done", datasets = config["datasets"]),
+		expand("fusca_{datasets}.done", datasets = config["datasets"])
+
+rule singleCellNet:
+	input:
+		metaQuery = "resources/data/{dataset}/query_meta.rda",
+ 		expQuery = "resources/data/{dataset}/query_exp.rda",
+ 		metaTrain = "resources/data/{dataset}/train_meta.rda",
+		expTrain = "resources/data/{dataset}/train_exp.rda"
+	output:
+		temp(touch("singleCellNet_{dataset}.done")),
+		assessment_curves = "results/{dataset}/singleCellNet/assessment-curves.png",
+		assessment_metrics = "results/{dataset}/singleCellNet/assessment_metrics.png",
+		test_data_heatmap = "results/{dataset}/singleCellNet/test-data_heatmap.png",
+		attr_plot = "results/{dataset}/singleCellNet/atrr-plot.png",
+		average_top_genepair = "results/{dataset}/singleCellNet/average-top-genepair.png",
+		query_classification_heatmap = "results/{dataset}/singleCellNet/query_classification-heatmap.png",
+		query_violin_plot = "results/{dataset}/singleCellNet/query-violin-plot.png",
+		query_subcluster_violin_plot = "results/{dataset}/singleCellNet/query-subcluster-violin-plot.png",
+		query_umap = "results/{dataset}/singleCellNet/query_umap.png",
+		score_heatmap = "results/{dataset}/singleCellNet/score_heatmap.png",
+		score_expression_heatmap = "results/{dataset}/singleCellNet/score_expression_heatmap.png"
+	params:
+		Cell_type_colname = config["Cell_type_colname"],
+		Cell_ID_colname = config["Cell_ID_colname"],
+		Cell_description_colname = config["Cell_description_colname"],
+		Cell_type_to_analyze = config["Cell_type_to_analyze"],
+		fig_width = config["fig_width"],
+		fig_height = config["fig_height"],
+		fig_res = config["fig_res"]
+	script:
+		"scripts/singleCellNet.R"
+
+rule seurat:
+	input:
+		metaQuery = "resources/data/{dataset}/query_meta.rda",
+		expQuery = "resources/data/{dataset}/query_exp.rda",
+		metaTrain = "resources/data/{dataset}/train_meta.rda",
+		expTrain = "resources/data/{dataset}/train_exp.rda"
+	output:
+		temp(touch("seurat_{dataset}.done")),
+		transfdata_umap = "results/{dataset}/seurat/transfdata_umap.png",
+		refAndQuery_umap = "results/{dataset}/seurat/refAndQuery_umap.png",
+		query_violin = "results/{dataset}/seurat/query_violin.png",
+		query_heatmap = "results/{dataset}/seurat/query_heatmap.png"
+	params:
+		Cell_type_colname = config["Cell_type_colname"],
+		Cell_ID_colname = config["Cell_ID_colname"],
+		Cell_description_colname = config["Cell_description_colname"],
+		Seurat_features = config["Suerat_features"],
+		fig_width = config["fig_width"],
+		fig_height = config["fig_height"],
+		fig_res = config["fig_res"]
+	script:
+		"scripts/seurat.R"
+
+rule symphony:
+	input:
+		metaQuery = "resources/data/{dataset}/query_meta.rda",
+		expQuery = "resources/data/{dataset}/query_exp.rda",
+		metaTrain = "resources/data/{dataset}/train_meta.rda",
+		expTrain = "resources/data/{dataset}/train_exp.rda"
+	output:
+		temp(touch("symphony_{dataset}.done")),
+		reference_umap = "results/{dataset}/symphony/reference_umap.png",
+		umap_mixed_queryAndReference = "results/{dataset}/symphony/umap_mixed_queryAndReference.png",
+		umap_query = "results/{dataset}/symphony/umap_query.png"
+	params:
+		Cell_type_colname = config["Cell_type_colname"],
+		Cell_ID_colname = config["Cell_ID_colname"],
+		Cell_description_colname = config["Cell_description_colname"],
+		fig_width = config["fig_width"],
+		fig_height = config["fig_height"],
+		fig_res = config["fig_res"]
+	script:
+		"scripts/symphony.R"
+
+rule fusca:
+	input:
+		metaQuery = "resources/data/{dataset}/query_meta.rda",
+		expQuery = "resources/data/{dataset}/query_exp.rda",
+		metaTrain = "resources/data/{dataset}/train_meta.rda",
+		expTrain = "resources/data/{dataset}/train_exp.rda"
+	output:
+		temp(touch("fusca_{dataset}.done")),
+		umap_queryAndReference = "results/{dataset}/fusca/umap_queryAndReference.png"
+	params:
+		Cell_type_colname = config["Cell_type_colname"],
+		Cell_ID_colname = config["Cell_ID_colname"],
+		Cell_description_colname = config["Cell_description_colname"],
+		fig_width = config["fig_width"],
+		fig_height = config["fig_height"],
+		fig_res = config["fig_res"]
+	script:
+		"scripts/fusca.R"

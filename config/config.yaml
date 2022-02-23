@@ -1,0 +1,58 @@
+# General Configs
+## List your datasets here. If you have more than one, do as the following:
+## datasets:
+##   ["dataset1",
+##   "dataset2",
+##   ...]
+##
+## This pipeline requires 4 files to work:
+
+## query_exp.rda - expression values of your query dataset
+##     colums (and colnames) must be Cell_IDs; rows (and rownames) must be genes.
+##
+## query_meta.rda - metadata of your query dataset
+##     columns must have Cell_IDs, description (any information about your data); rows (and rownames) must be Cell_IDs.
+##
+## train_exp.rda - expression values of your train/transfer dataset
+##     colums (and colnames) must be Cell_IDs; rows (and rownames) must be genes.
+##
+## train_meta.rda - metadata of your train/transfer dataset
+##     columns must have Cell_IDs, Cell_types; rows (and rownames) must be Cell_IDs.
+
+datasets:
+  "lamanno"
+
+# Cell_ID column name of both query and train/transfer dataset
+Cell_ID_colname:
+  "Cell_ID"
+
+# Cell_type column name of the training/transfer dataset
+Cell_type_colname:
+  "Cell_type"
+
+# Cell_description column name of query dataset. If you don`t have any, assing to NULL
+Cell_description_colname:
+  "Cell_type"
+
+## Figure width
+fig_width:
+  1600
+
+## Figure height
+fig_height:
+  1600
+
+## Figure resolution:
+fig_res:
+   300
+
+# singleCellNet Configs
+## Which Cell Type do you want to generate the violin plot. If NULL, no subcluster violin plot will be generated
+Cell_type_to_analyze:
+  "DA"
+
+# Seurat
+## Features to analyze. If there are too many features, figure will be hard to visualize. We recoomend up to 4 per analysis.
+## Set to NULL if you don`t want to run the features analysis.
+Suerat_features:
+  ["PBX1", "TH", "DDC"]
