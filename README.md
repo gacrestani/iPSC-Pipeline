@@ -2,7 +2,7 @@
 
 iPSC Pipeline is a pipeline developed with Snakemake to apply several single cell analysis tools. The pipeline requires one  reference dataset, with known cell types in its metadata. Also, it requires one query dataset with a metadata file. The result of the pipeline is a series of figures that can be used to generate reports and/or scientific papers.
 
-This pipeline was built for the final paper (TCC) of Giovanni Alberto Crestani. The paper can be viewed here.
+This pipeline was built for the final paper (TCC) of Giovanni Alberto Crestani. The paper will be available soon.
 
 ## Installation
 
